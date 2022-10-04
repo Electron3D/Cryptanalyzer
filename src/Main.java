@@ -6,20 +6,24 @@ public class Main {
     public static void main(String[] args) {
         init(args);
         Path path = Path.of(args[1]);
-        int key = Integer.parseInt(args[2]);
         Alphabet alphabet = EnglishAlphabet.getInstance();
-
         IOManager manager = new IOManager();
         List<String> text = manager.read(path);
         List<String> modText;
-        if (args[0].equals(LegalOperations.ENCODE.getOperation())) {
-            modText = Encoder.encode(text, key, alphabet);
-        } else if (args[0].equals(LegalOperations.DECODE.getOperation())) {
-            modText = Decoder.decode(text, key, alphabet);
+        int key;
+        if (args[0].equals(LegalOperations.BRUTE_FORCE.getOperation())) {
+            List<String> exampleText = manager.read(Path.of(args[2]));
+            modText = BruteForceDecoder.forceDecode(text, exampleText, alphabet);
+            key = BruteForceDecoder.getKey();
         } else {
-            modText = text; //TODO bruteForce
+            key = Integer.parseInt(args[2]);
+            if (args[0].equals(LegalOperations.ENCODE.getOperation())) {
+                modText = Encoder.encode(text, key, alphabet);
+            } else {
+                modText = Decoder.decode(text, key, alphabet);
+            }
         }
-        manager.write(modText, path, args[0]);
+        manager.write(modText, path, args[0], key);
     }
 
     private static void init(String[] args) {
@@ -65,9 +69,12 @@ public class Main {
     }
 
     private static boolean isPathLegal(String path) {
-        //check legal state of file path
-        Path path1 = Path.of(path);
-        return !Files.notExists(path1) && !Files.isDirectory(path1);
+        if (path.substring(path.lastIndexOf(".")).equals(".txt")) {
+            Path path1 = Path.of(path);
+            return Files.exists(path1);
+        } else {
+            return false;
+        }
     }
 
     private static boolean isKeyLegal(String arg) {
