@@ -1,5 +1,18 @@
 public abstract class Alphabet {
-    public int fromChar;
-    public int toChar;
-    public int numberOfLetters;
+    protected char fromChar;
+    protected char toChar;
+    protected int numberOfLetters;
+
+    public char getFromChar() {
+        return fromChar;
+    }
+
+    public char getToChar() {
+        return toChar;
+    }
+
+    public int getNumberOfLetters() {
+        return numberOfLetters;
+    }
+
 }

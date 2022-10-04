@@ -1,6 +1,25 @@
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         init(args);
+        Path path = Path.of(args[1]);
+        int key = Integer.parseInt(args[2]);
+        Alphabet alphabet = EnglishAlphabet.getInstance();
+
+        IOManager manager = new IOManager();
+        List<String> text = manager.read(path);
+        List<String> modText;
+        if (args[0].equals(LegalOperations.ENCODE.getOperation())) {
+            modText = Encoder.encode(text, key, alphabet);
+        } else if (args[0].equals(LegalOperations.DECODE.getOperation())) {
+            modText = Decoder.decode(text, key, alphabet);
+        } else {
+            modText = text; //TODO bruteForce
+        }
+        manager.write(modText, path, args[0]);
     }
 
     private static void init(String[] args) {
@@ -47,11 +66,16 @@ public class Main {
 
     private static boolean isPathLegal(String path) {
         //check legal state of file path
-        return true;
+        Path path1 = Path.of(path);
+        return !Files.notExists(path1) && !Files.isDirectory(path1);
     }
 
     private static boolean isKeyLegal(String arg) {
-        //check legal state of key
+        try {
+            Integer.parseInt(arg);
+        } catch (NumberFormatException e) {
+            return false;
+        }
         return true;
     }
 
