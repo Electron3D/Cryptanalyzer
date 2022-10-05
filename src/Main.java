@@ -35,12 +35,12 @@ public class Main {
                         "Order of arguments is important!%n", legalOperationsToString());
                 throw new IllegalArgumentException();
             }
-            if (!isPathLegal(args[1])) {
+            if (isPathWrong(args[1])) {
                 System.out.println("File path is wrong or input file doesn't exist.");
                 throw new IllegalArgumentException();
             }
             if (args[0].equals(LegalOperations.BRUTE_FORCE.getOperation())) {
-                if (!isPathLegal(args[2])) {
+                if (isPathWrong(args[2])) {
                     System.out.println("File path for statistic analysis is wrong or file doesn't exist.");
                     throw new IllegalArgumentException();
                 }
@@ -68,12 +68,12 @@ public class Main {
         return count == 1;
     }
 
-    private static boolean isPathLegal(String path) {
+    private static boolean isPathWrong(String path) {
         if (path.substring(path.lastIndexOf(".")).equals(".txt")) {
             Path path1 = Path.of(path);
-            return Files.exists(path1);
+            return !Files.exists(path1);
         } else {
-            return false;
+            return true;
         }
     }
 
