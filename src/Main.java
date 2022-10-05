@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         init(args);
         Path path = Path.of(args[1]);
-        Alphabet alphabet = EnglishAlphabet.getInstance();
+        Alphabet alphabet = Alphabet.setAlphabet(path);
         IOManager manager = new IOManager();
         List<String> text = manager.read(path);
         List<String> modText;

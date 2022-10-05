@@ -11,13 +11,15 @@ public class Decoder extends Coder {
             chars = s.toCharArray();
             StringBuilder resultString = new StringBuilder();
             for (char c : chars) {
-                if (Character.isAlphabetic(c)) {
+                if (Character.isAlphabetic(c) && alphabet.isBetween(Character.toLowerCase(c))) {
                     if (Character.isUpperCase(c)) {
                         c = Character.toLowerCase(c);
                         isUpperCase = true;
                     }
                     if (c - normKey < alphabet.firstChar) {
                         c = (char) ((c - normKey) + alphabet.numberOfLetters);
+                    } else if (c - normKey > alphabet.lastChar) {
+                        c = (char) ((c - normKey) - alphabet.numberOfLetters);
                     } else {
                         c = (char) (c - normKey);
                     }

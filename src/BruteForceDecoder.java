@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class BruteForceDecoder {
-    static int key;
+    private static int key;
     public static int getKey() {
         return key;
     }
