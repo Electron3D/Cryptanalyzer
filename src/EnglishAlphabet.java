@@ -1,5 +1,5 @@
 public class EnglishAlphabet extends Alphabet {
-    private static final EnglishAlphabet ALPHABET = new EnglishAlphabet('a', 'z');
+    private static EnglishAlphabet alphabet;
 
     private EnglishAlphabet(char fromChar, char toChar) {
         this.firstChar = fromChar;
@@ -8,6 +8,9 @@ public class EnglishAlphabet extends Alphabet {
     }
 
     public static EnglishAlphabet getInstance() {
-        return ALPHABET;
+        if (alphabet == null) {
+            alphabet = new EnglishAlphabet('a', 'z');
+        }
+        return alphabet;
     }
 }

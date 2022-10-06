@@ -18,9 +18,9 @@ public class Main {
         } else {
             key = Integer.parseInt(args[2]);
             if (args[0].equals(LegalOperations.ENCODE.getOperation())) {
-                modText = Encoder.encode(text, key, alphabet);
+                modText = Coder.encode(text, key, alphabet);
             } else {
-                modText = Decoder.decode(text, key, alphabet);
+                modText = Coder.decode(text, key, alphabet);
             }
         }
         manager.write(modText, path, args[0], key);

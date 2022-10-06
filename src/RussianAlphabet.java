@@ -1,5 +1,5 @@
 public class RussianAlphabet extends Alphabet {
-    private static final RussianAlphabet ALPHABET = new RussianAlphabet('а', 'я');
+    private static RussianAlphabet alphabet;
 
     private RussianAlphabet(char fromChar, char toChar) {
         this.firstChar = fromChar;
@@ -8,6 +8,9 @@ public class RussianAlphabet extends Alphabet {
     }
 
     public static RussianAlphabet getInstance() {
-        return ALPHABET;
+        if (alphabet == null) {
+            alphabet = new RussianAlphabet('а', 'я');
+        }
+        return alphabet;
     }
 }
