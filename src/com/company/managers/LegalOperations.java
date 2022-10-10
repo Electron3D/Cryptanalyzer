@@ -1,3 +1,5 @@
+package com.company.managers;
+
 public enum LegalOperations {
     ENCODE("encode"),
     DECODE("decode"),
