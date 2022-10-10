@@ -1,3 +1,5 @@
+package com.company;
+
 import com.company.coders.BruteForceDecoder;
 import com.company.coders.Coder;
 import com.company.managers.AlphabetManager;
