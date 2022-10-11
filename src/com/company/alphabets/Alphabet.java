@@ -2,10 +2,14 @@ package com.company.alphabets;
 
 public abstract class Alphabet {
     protected String alphabet;
+    protected String name;
     protected int numberOfLetters;
 
     public String getAlphabet() {
         return alphabet;
+    }
+    public String getName() {
+        return name;
     }
     public int getNumberOfLetters() {
         return numberOfLetters;
