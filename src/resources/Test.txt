@@ -1,0 +1,9 @@
+абвгдеёжзийклмнопрстуфхцчшщъыьэюя
+АБВГДЕЁЖЗИЙКЛМНОПРСТУЙХЦЧШЩЪЫЬЭЮЯ
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+1234567890
+!,.()<>[]{}/?
+
+bruteForce E:\Repository\IdeaProjects\Cryptanalyzer\src\resources\Test_encoded.txt E:\Repository\IdeaProjects\Cryptanalyzer\src\resources\Harry_Potter_1.txt
+encode E:\Repository\IdeaProjects\Cryptanalyzer\src\resources\Test.txt 35

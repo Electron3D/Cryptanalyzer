@@ -20,14 +20,17 @@ public class BruteForceDecoder extends Coder{
     }
     //TODO: fix wrong working
     private static void findKey(Map<Character, Integer> normCountedAlphabet, Map<Character, Integer> normCountedExampleAlphabet) {
-        int exampleHash = sum(Arrays.asList(normCountedExampleAlphabet.values().toArray()).subList(23, 43));
+        int exampleHashEng = sum(Arrays.asList(normCountedExampleAlphabet.values().toArray()).subList(0, 33));
+        int exampleHashRu = sum(Arrays.asList(normCountedExampleAlphabet.values().toArray()).subList(34, 59));
         int minHash = Integer.MAX_VALUE;
         List<Object> values = Arrays.asList(normCountedAlphabet.values().toArray());
+
         for (int i = 0; i < normCountedAlphabet.size(); i++) {
-            int hash = Math.abs(exampleHash - sum(values.subList(23, 43)));
-            if (hash < minHash) {
-                minHash = hash;
-                key = i + 1;
+            int hash = sum(values.subList(26, 40));
+            int hashDifference = Math.abs(exampleHashEng - hash);
+            if (hashDifference < minHash) {
+                minHash = hashDifference;
+                key = i;
             }
             Collections.rotate(values, 1);
         }
@@ -46,7 +49,7 @@ public class BruteForceDecoder extends Coder{
         char maxUsedChar = findMaxEntry(countedAlphabet);
         for (Map.Entry<Character, Integer> entry : countedAlphabet.entrySet()) {
             int maxUsedCharCount = countedAlphabet.get(maxUsedChar);
-            normCountedAlphabet.put(entry.getKey(), entry.getValue() * 1000 / maxUsedCharCount);
+            normCountedAlphabet.put(entry.getKey(), entry.getValue() * 100 / maxUsedCharCount);
         }
         return normCountedAlphabet;
     }
