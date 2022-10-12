@@ -26,50 +26,8 @@ public class Coder {
         return result;
     }
 
-    public static List<String> encodeEng(List<String> text, int key) {
-        AlphabetManager manager = AlphabetManager.getInstance();
-        Alphabet alphabet = manager.getEngAlphabet();
-        char[] chars;
-        int normKey;
-        List<String> result = new ArrayList<>();
-        for (String s : text) {
-            chars = s.toCharArray();
-            StringBuilder resultString = new StringBuilder();
-            for (char c : chars) {
-                normKey = normalizeKey(key, alphabet);
-                resultString.append(shiftChar(c, alphabet, normKey));
-            }
-            result.add(resultString.toString());
-        }
-        return result;
-    }
-
-    public static List<String> encodeRu(List<String> text, int key) {
-        AlphabetManager manager = AlphabetManager.getInstance();
-        Alphabet alphabet = manager.getRuAlphabet();
-        char[] chars;
-        int normKey;
-        List<String> result = new ArrayList<>();
-        for (String s : text) {
-            chars = s.toCharArray();
-            StringBuilder resultString = new StringBuilder();
-            for (char c : chars) {
-                normKey = normalizeKey(key, alphabet);
-                resultString.append(shiftChar(c, alphabet, normKey));
-            }
-            result.add(resultString.toString());
-        }
-        return result;
-    }
-
     public static List<String> decode(List<String> text, int key) {
         return encode(text, key * -1);
-    }
-    public static List<String> decodeEng(List<String> text, int key) {
-        return encodeEng(text, key * -1);
-    }
-    public static List<String> decodeRu(List<String> text, int key) {
-        return encodeRu(text, key * -1);
     }
 
     private static char shiftChar(char c, Alphabet alphabet, int normKey) {

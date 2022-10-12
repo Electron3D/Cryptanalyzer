@@ -29,13 +29,6 @@ public class AlphabetManager {
         }
     }
 
-    public Alphabet getEngAlphabet() {
-        return alphabets.get("English");
-    }
-    public Alphabet getRuAlphabet() {
-        return alphabets.get("Russian");
-    }
-
     public HashMap<Character, Integer> getAlphabetsMap() {
         HashMap<Character, Integer> alphabetsMap = new HashMap<>();
         for (Alphabet alphabet : alphabets.values()) {
