@@ -3,7 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .idea/
-src/resources/META-INF
+src/resources/META-INF/
 
 ### Eclipse ###
 .apt_generated
