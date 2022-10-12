@@ -57,7 +57,7 @@ public class Cli {
         if (args[0].equals(LegalOperations.BRUTE_FORCE.getOperation())) {
             List<String> exampleText = ioManager.read(Path.of(args[2]));
             modText = BruteForceDecoder.forceDecode(text, exampleText, alphabetManager);
-            key = BruteForceDecoder.getEngKey();
+            key = BruteForceDecoder.getKey();
         } else {
             key = Integer.parseInt(args[2]);
             if (args[0].equals(LegalOperations.ENCODE.getOperation())) {

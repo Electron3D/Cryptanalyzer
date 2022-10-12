@@ -36,21 +36,14 @@ public class AlphabetManager {
         return alphabets.get("Russian");
     }
 
-    public HashMap<Character, Integer> getEngAlphabetMap() {
-        HashMap<Character, Integer> engAlphabet = new HashMap<>();
-        char[] alphabetChars = alphabets.get("English").getAlphabet().toCharArray();
-        for (char c : alphabetChars) {
-            engAlphabet.put(c, 0);
+    public HashMap<Character, Integer> getAlphabetsMap() {
+        HashMap<Character, Integer> alphabetsMap = new HashMap<>();
+        for (Alphabet alphabet : alphabets.values()) {
+            char[] alphabetChars = alphabet.getAlphabet().toCharArray();
+            for (char c : alphabetChars) {
+                alphabetsMap.put(c, 0);
+            }
         }
-        return engAlphabet;
-    }
-
-    public HashMap<Character, Integer> getRuAlphabetMap() {
-        HashMap<Character, Integer> ruAlphabet = new HashMap<>();
-        char[] alphabetChars = alphabets.get("Russian").getAlphabet().toCharArray();
-        for (char c : alphabetChars) {
-            ruAlphabet.put(c, 0);
-        }
-        return ruAlphabet;
+        return alphabetsMap;
     }
 }
