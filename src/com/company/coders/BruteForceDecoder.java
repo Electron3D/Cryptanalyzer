@@ -5,8 +5,9 @@ import com.company.managers.AlphabetManager;
 
 import java.util.*;
 
-public class BruteForceDecoder extends Coder{
+public class BruteForceDecoder extends Coder {
     private static int ruKey;
+
     private static int engKey;
 
     public static int getEngKey() {
@@ -14,39 +15,40 @@ public class BruteForceDecoder extends Coder{
     }
 
     public static List<String> forceDecode(List<String> text, List<String> exampleText, AlphabetManager alphabetManager) {
-        findEngKey(text, exampleText, alphabetManager);
-        findRuKey(text, exampleText, alphabetManager);
-        return Coder.decodeEng(Coder.decodeRu(text, ruKey), engKey);
+        List<Map<Character, Integer>> countedTextAlphabets = countCharacters(text, alphabetManager);
+        List<Map<Character, Integer>> countedExampleTextAlphabets = countCharacters(exampleText, alphabetManager);
+        engKey = findEngKey(countedTextAlphabets.get(0), countedExampleTextAlphabets.get(0), alphabetManager);
+        ruKey = findRuKey(countedTextAlphabets.get(1), countedExampleTextAlphabets.get(1), alphabetManager);
+        return Coder.decodeRu(Coder.decodeEng(text, engKey), ruKey);
     }
-    private static void findKey(Map<Character, Integer> normCountedText, Map<Character, Integer> normCountedExampleText, Alphabet alphabet) {
-        int exampleHash = sum(Arrays.asList(normCountedExampleText.values().toArray()).subList(0, 25));
+
+    private static int findKey(Map<Character, Integer> normCountedText, Map<Character, Integer> normCountedExampleText, Alphabet alphabet) {
+        int exampleHash = sum(Arrays.asList(normCountedExampleText.values().toArray()).subList(0, alphabet.getNumberOfLetters() / 2));
         int minHashDifference = Integer.MAX_VALUE;
+        int key = 0;
         List<Object> values = Arrays.asList(normCountedText.values().toArray());
         for (int i = 0; i < alphabet.getNumberOfLetters(); i++) {
-            int hash = sum(values.subList(0, 25));
+            int hash = sum(values.subList(0, alphabet.getNumberOfLetters() / 2));
             int hashDifference = Math.abs(exampleHash - hash);
             if (hashDifference < minHashDifference) {
                 minHashDifference = hashDifference;
-                if (i < 33) {
-                    ruKey = i - 1;
-                    engKey = ruKey;
-                } else {
-                    ruKey = i;
-                    engKey = ruKey + 4;
-                }
+                key = alphabet.getNumberOfLetters() - i;
             }
-            Collections.rotate(values, -1);
+            Collections.rotate(values, 1);
         }
+        return key;
     }
-    private static void findEngKey(List<String> text, List<String> exampleText, AlphabetManager manager) {
-        Map<Character, Integer> normCountedEngAlphabet = normalize(countCharacters(text, manager).get(0));
-        Map<Character, Integer> normCountedEngExampleAlphabet = normalize(countCharacters(exampleText, manager).get(0));
-        findKey(normCountedEngAlphabet, normCountedEngExampleAlphabet, manager.getEngAlphabet());
+
+    private static int findEngKey(Map<Character, Integer> countedEngAlphabet, Map<Character, Integer> countedEngExampleAlphabet, AlphabetManager manager) {
+        Map<Character, Integer> normCountedEngAlphabet = normalize(countedEngAlphabet);
+        Map<Character, Integer> normCountedEngExampleAlphabet = normalize(countedEngExampleAlphabet);
+        return findKey(normCountedEngAlphabet, normCountedEngExampleAlphabet, manager.getEngAlphabet());
     }
-    private static void findRuKey(List<String> text, List<String> exampleText, AlphabetManager manager) {
-        Map<Character, Integer> normCountedRuAlphabet = normalize(countCharacters(text, manager).get(1));
-        Map<Character, Integer> normCountedRuExampleAlphabet = normalize(countCharacters(exampleText, manager).get(1));
-        findKey(normCountedRuAlphabet, normCountedRuExampleAlphabet, manager.getRuAlphabet());
+
+    private static int findRuKey(Map<Character, Integer> countedRuAlphabet, Map<Character, Integer> countedRuExampleAlphabet, AlphabetManager manager) {
+        Map<Character, Integer> normCountedRuAlphabet = normalize(countedRuAlphabet);
+        Map<Character, Integer> normCountedRuExampleAlphabet = normalize(countedRuExampleAlphabet);
+        return findKey(normCountedRuAlphabet, normCountedRuExampleAlphabet, manager.getRuAlphabet());
     }
 
     private static int sum(List<Object> values) {
