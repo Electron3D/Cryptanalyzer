@@ -4,7 +4,6 @@ import com.company.coders.BruteForceDecoder;
 import com.company.coders.Coder;
 import com.company.managers.AlphabetManager;
 import com.company.managers.IOManager;
-import com.company.managers.LegalOperations;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

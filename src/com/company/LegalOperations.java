@@ -1,4 +1,4 @@
-package com.company.managers;
+package com.company;
 
 public enum LegalOperations {
     ENCODE("encode"),
