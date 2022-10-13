@@ -58,6 +58,11 @@ public class Coder {
         return c;
     }
 
+    /**
+     * Checking the sign of the key,
+     * if key > alphabet length -> get key in the right range,
+     * return this key with it's started sign
+     */
     protected static int normalizeKey(int key, Alphabet alphabet) {
         boolean isKeyNegative = false;
         if (key < 0) {

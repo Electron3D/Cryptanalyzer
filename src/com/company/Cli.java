@@ -9,31 +9,36 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import static com.company.LegalOperations.legalOperationsToString;
+
 public class Cli {
     public static void start(String[] args) {
-        init(args);
+        checkArgs(args);
         process(args);
     }
-    private static void init(String[] args) {
+    private static void checkArgs(String[] args) {
         if (args.length == 3) {
-            if (!isOperationLegal(args[0])) {
+            String operation = args[0];
+            String srcPathString = args[1];
+            String keyOrPathToReference = args[2];
+            if (!isOperationLegal(operation)) {
                 System.out.printf("Wrong operation.%n" +
                         "List of legal operations: %s%n" +
                         "Arguments pattern: \"operation filePath key/filePathForStatisticAnalysis\".%n" +
                         "Order of arguments is important!%n", legalOperationsToString());
                 throw new IllegalArgumentException();
             }
-            if (isPathWrong(args[1])) {
+            if (isPathWrong(srcPathString)) {
                 System.out.println("File path is wrong or input file doesn't exist.");
                 throw new IllegalArgumentException();
             }
-            if (args[0].equals(LegalOperations.BRUTE_FORCE.getOperation())) {
-                if (isPathWrong(args[2])) {
+            if (LegalOperations.BRUTE_FORCE.getOperation().equals(operation)) {
+                if (isPathWrong(keyOrPathToReference)) {
                     System.out.println("File path for statistic analysis is wrong or file doesn't exist.");
                     throw new IllegalArgumentException();
                 }
             } else {
-                if (!isKeyLegal(args[2])) {
+                if (!isKeyLegal(keyOrPathToReference)) {
                     System.out.println("This key isn't allowed. \n Key should be integer number.");
                     throw new IllegalArgumentException();
                 }
@@ -47,41 +52,39 @@ public class Cli {
     }
 
     public static void process(String[] args) {
-        Path path = Path.of(args[1]);
+        String operation = args[0];
+        String srcPathString = args[1];
+        String keyOrPathToReference = args[2];
+        Path srcPath = Path.of(srcPathString);
         IOManager ioManager = new IOManager();
         AlphabetManager alphabetManager = AlphabetManager.getInstance();
-        List<String> text = ioManager.read(path);
+        List<String> srcText = ioManager.read(srcPath);
         List<String> modText;
         int key;
-        if (args[0].equals(LegalOperations.BRUTE_FORCE.getOperation())) {
-            List<String> exampleText = ioManager.read(Path.of(args[2]));
-            modText = BruteForceDecoder.forceDecode(text, exampleText, alphabetManager);
+        if (LegalOperations.BRUTE_FORCE.getOperation().equals(operation)) {
+            List<String> referenceText = ioManager.read(Path.of(keyOrPathToReference));
+            modText = BruteForceDecoder.forceDecode(srcText, referenceText, alphabetManager);
             key = BruteForceDecoder.getKey();
         } else {
-            key = Integer.parseInt(args[2]);
-            if (args[0].equals(LegalOperations.ENCODE.getOperation())) {
-                modText = Coder.encode(text, key);
+            key = Integer.parseInt(keyOrPathToReference);
+            if (LegalOperations.ENCODE.getOperation().equals(operation)) {
+                modText = Coder.encode(srcText, key);
             } else {
-                modText = Coder.decode(text, key);
+                modText = Coder.decode(srcText, key);
             }
         }
-        ioManager.write(modText, path, args[0], key);
+        ioManager.write(modText, srcPath, operation, key);
     }
 
     private static boolean isOperationLegal(String arg) {
-        int count = 0;
-        for (LegalOperations operation : LegalOperations.values()) {
-            if (arg.equals(operation.getOperation())) {
-                count++;
-            }
-        }
-        return count == 1;
+        return LegalOperations.getOperations().contains(arg);
     }
 
-    private static boolean isPathWrong(String path) {
-        if (path.substring(path.lastIndexOf(".")).equals(".txt")) {
-            Path path1 = Path.of(path);
-            return !Files.exists(path1);
+    //todo: check is directory first
+    private static boolean isPathWrong(String pathString) {
+        if (pathString.substring(pathString.lastIndexOf(".")).equals(".txt")) {
+            Path path = Path.of(pathString);
+            return !Files.exists(path);
         } else {
             return true;
         }
@@ -94,13 +97,5 @@ public class Cli {
             return false;
         }
         return true;
-    }
-
-    private static String legalOperationsToString() {
-        StringBuilder result = new StringBuilder();
-        for (LegalOperations operation : LegalOperations.values()) {
-            result.append(operation.getOperation()).append(", ");
-        }
-        return result.delete(result.length() - 2, result.length()).append(".").toString();
     }
 }
