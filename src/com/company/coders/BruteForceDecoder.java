@@ -3,7 +3,7 @@ package com.company.coders;
 import com.company.alphabets.Alphabet;
 import com.company.managers.AlphabetManager;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,28 +19,33 @@ public class BruteForceDecoder {
         return Coder.decode(text, key);
     }
 
-    private static int findKey(Map<Character, Integer> countedText, Map<Character, Integer> countedExampleText) {
-        List<Object> textValues = Arrays.asList(countedText.values().toArray());
-        List<Object> exampleTextValues = Arrays.asList(countedExampleText.values().toArray());
+    private static int findKey(Map<Character, Integer> srcCharCount, Map<Character, Integer> referenceCharCount) {
+        List<Integer> srcValues = new ArrayList<>(srcCharCount.values());
+        List<Integer> referenceValues = new ArrayList<>(referenceCharCount.values());
 
-        char maxUsedCharText = findMaxEntry(countedText);
-        char maxUsedCharExampleText = findMaxEntry(countedExampleText);
+        char maxUsedSrcChar = findSecondMaxEntry(srcCharCount);
+        char maxUsedReferenceChar = findSecondMaxEntry(referenceCharCount);
 
-        int indexOfMaxUsedChar = textValues.indexOf(countedText.get(maxUsedCharText));
-        int indexOfMaxUsedExampleChar = exampleTextValues.indexOf(countedExampleText.get(maxUsedCharExampleText));
-        return indexOfMaxUsedChar - indexOfMaxUsedExampleChar;
+        int indexOfMaxUsedSrcChar = srcValues.indexOf(srcCharCount.get(maxUsedSrcChar));
+        int indexOfMaxUsedReferenceChar = referenceValues.indexOf(referenceCharCount.get(maxUsedReferenceChar));
+        return indexOfMaxUsedSrcChar - indexOfMaxUsedReferenceChar;
     }
 
-    private static char findMaxEntry(Map<Character, Integer> countedAlphabet) {
-        char maxCountChar = ' ';
+    private static char findSecondMaxEntry(Map<Character, Integer> countedAlphabet) {
+        char secondMaxCountChar = ' ';
+        int secondMaxCount = 0;
         int maxCount = 0;
         for (Map.Entry<Character, Integer> entry : countedAlphabet.entrySet()) {
-            if (entry.getValue() > maxCount) {
-                maxCount = entry.getValue();
-                maxCountChar = entry.getKey();
+            int value = entry.getValue();
+            if (value > maxCount) {
+                secondMaxCount = maxCount;
+                maxCount = value;
+            } else if (value > secondMaxCount) {
+                secondMaxCount = value;
+                secondMaxCountChar = entry.getKey();
             }
         }
-        return maxCountChar;
+        return secondMaxCountChar;
     }
 
     private static Map<Character, Integer> countCharacters(List<String> text, AlphabetManager alphabetManager) {

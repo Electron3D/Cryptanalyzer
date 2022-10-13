@@ -12,6 +12,7 @@ public class IOManager {
         try {
             return Files.readAllLines(path);
         } catch (IOException e) {
+            System.out.println("Can't read file");
             throw new RuntimeException(e);
         }
     }
@@ -20,7 +21,7 @@ public class IOManager {
         String pathStr = path.toString();
         String extension = pathStr.substring(pathStr.lastIndexOf("."));
         String destination;
-        if (operation.equals(LegalOperations.BRUTE_FORCE.getOperation())){
+        if (LegalOperations.BRUTE_FORCE.getOperation().equals(operation)){
             operation = LegalOperations.DECODE.getOperation();
             destination = pathStr.substring(0, pathStr.lastIndexOf(".")) + "_" + operation + "d_key-" + key + extension;
         } else {
@@ -29,6 +30,7 @@ public class IOManager {
         try {
             Files.write(Path.of(destination), text);
         } catch (IOException e) {
+            System.out.println("Failed to write in file");
             throw new RuntimeException(e);
         }
     }

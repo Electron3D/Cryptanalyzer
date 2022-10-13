@@ -5,10 +5,10 @@ public class Alphabet {
     protected String name;
     protected int numberOfLetters;
 
-    public Alphabet(String alphabet, String name, int numberOfLetters) {
+    public Alphabet(String alphabet, String name) {
         this.alphabet = alphabet;
         this.name = name;
-        this.numberOfLetters = numberOfLetters;
+        this.numberOfLetters = alphabet.length();
     }
 
     public String getAlphabet() {

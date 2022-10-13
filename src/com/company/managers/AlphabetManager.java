@@ -8,11 +8,14 @@ public class AlphabetManager {
     private static AlphabetManager alphabetManager;
     private final HashMap<String, Alphabet> alphabets = new HashMap<>();
 
+    private AlphabetManager() {
+    }
+
     public static AlphabetManager getInstance() {
         if (alphabetManager == null) {
             alphabetManager = new AlphabetManager();
-            Alphabet engAlphabet = new Alphabet("abcdefghijklmnopqrstuvwxyz", "English", 26);
-            Alphabet ruAlphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя", "Russian", 33);
+            Alphabet engAlphabet = new Alphabet("abcdefghijklmnopqrstuvwxyz", "English");
+            Alphabet ruAlphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя", "Russian");
             alphabetManager.alphabets.put(engAlphabet.getName(), engAlphabet);
             alphabetManager.alphabets.put(ruAlphabet.getName(), ruAlphabet);
         }
