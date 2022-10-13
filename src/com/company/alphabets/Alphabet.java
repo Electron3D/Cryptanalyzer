@@ -1,9 +1,15 @@
 package com.company.alphabets;
 
-public abstract class Alphabet {
+public class Alphabet {
     protected String alphabet;
     protected String name;
     protected int numberOfLetters;
+
+    public Alphabet(String alphabet, String name, int numberOfLetters) {
+        this.alphabet = alphabet;
+        this.name = name;
+        this.numberOfLetters = numberOfLetters;
+    }
 
     public String getAlphabet() {
         return alphabet;

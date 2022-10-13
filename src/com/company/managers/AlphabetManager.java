@@ -1,8 +1,6 @@
 package com.company.managers;
 
 import com.company.alphabets.Alphabet;
-import com.company.alphabets.EnglishAlphabet;
-import com.company.alphabets.RussianAlphabet;
 
 import java.util.HashMap;
 
@@ -13,8 +11,8 @@ public class AlphabetManager {
     public static AlphabetManager getInstance() {
         if (alphabetManager == null) {
             alphabetManager = new AlphabetManager();
-            Alphabet engAlphabet = new EnglishAlphabet();
-            Alphabet ruAlphabet = new RussianAlphabet();
+            Alphabet engAlphabet = new Alphabet("abcdefghijklmnopqrstuvwxyz", "English", 26);
+            Alphabet ruAlphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя", "Russian", 33);
             alphabetManager.alphabets.put(engAlphabet.getName(), engAlphabet);
             alphabetManager.alphabets.put(ruAlphabet.getName(), ruAlphabet);
         }
