@@ -14,32 +14,40 @@ public class BruteForceDecoder {
         return key;
     }
 
-    public static List<String> forceDecode(List<String> text, List<String> exampleText, AlphabetManager alphabetManager) {
-        key = findKey(countCharacters(text, alphabetManager), countCharacters(exampleText, alphabetManager));
-        return Coder.decode(text, key);
+    public static List<String> forceDecode(List<String> srcText, List<String> referenceText, AlphabetManager alphabetManager) {
+        key = findKey(countCharacters(srcText, alphabetManager), countCharacters(referenceText, alphabetManager), alphabetManager);
+        return Coder.decode(srcText, key);
     }
 
-    private static int findKey(Map<Character, Integer> srcCharCount, Map<Character, Integer> referenceCharCount) {
+    private static int findKey(Map<Character, Integer> srcCharCount, Map<Character, Integer> referenceCharCount, AlphabetManager alphabetManager) {
         List<Integer> srcValues = new ArrayList<>(srcCharCount.values());
         List<Integer> referenceValues = new ArrayList<>(referenceCharCount.values());
 
-        char maxUsedSrcChar = findSecondMaxEntry(srcCharCount);
-        char maxUsedReferenceChar = findSecondMaxEntry(referenceCharCount);
+        char secondMaxUsedSrcChar = findSecondMaxEntry(srcCharCount);
+        char secondMaxUsedReferenceChar = findSecondMaxEntry(referenceCharCount);
 
-        int indexOfMaxUsedSrcChar = srcValues.indexOf(srcCharCount.get(maxUsedSrcChar));
-        int indexOfMaxUsedReferenceChar = referenceValues.indexOf(referenceCharCount.get(maxUsedReferenceChar));
-        return indexOfMaxUsedSrcChar - indexOfMaxUsedReferenceChar;
+        int indexOfSecondMaxUsedSrcChar = srcValues.indexOf(srcCharCount.get(secondMaxUsedSrcChar));
+        int indexOfSecondMaxUsedReferenceChar = referenceValues.indexOf(referenceCharCount.get(secondMaxUsedReferenceChar));
+        int resultKey = indexOfSecondMaxUsedSrcChar - indexOfSecondMaxUsedReferenceChar;
+        if (resultKey < 0) {
+            return resultKey + alphabetManager.getAlphabetFor(secondMaxUsedSrcChar).getNumberOfLetters();
+        } else {
+            return resultKey;
+        }
     }
 
     private static char findSecondMaxEntry(Map<Character, Integer> countedAlphabet) {
+        char maxCountChar = ' ';
         char secondMaxCountChar = ' ';
-        int secondMaxCount = 0;
         int maxCount = 0;
+        int secondMaxCount = 0;
         for (Map.Entry<Character, Integer> entry : countedAlphabet.entrySet()) {
             int value = entry.getValue();
             if (value > maxCount) {
                 secondMaxCount = maxCount;
                 maxCount = value;
+                secondMaxCountChar = maxCountChar;
+                maxCountChar = entry.getKey();
             } else if (value > secondMaxCount) {
                 secondMaxCount = value;
                 secondMaxCountChar = entry.getKey();

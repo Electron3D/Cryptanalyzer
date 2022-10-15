@@ -15,7 +15,7 @@ public class AlphabetManager {
         if (alphabetManager == null) {
             alphabetManager = new AlphabetManager();
             Alphabet engAlphabet = new Alphabet("abcdefghijklmnopqrstuvwxyz", "English");
-            Alphabet ruAlphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя", "Russian");
+            Alphabet ruAlphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюяё", "Russian");
             alphabetManager.alphabets.put(engAlphabet.getName(), engAlphabet);
             alphabetManager.alphabets.put(ruAlphabet.getName(), ruAlphabet);
         }
