@@ -45,7 +45,7 @@ public class Coder {
         return c;
     }
 
-    public static char encodeChar(char c, Alphabet alphabet, int normKey) {
+    private static char encodeChar(char c, Alphabet alphabet, int normKey) {
         String alphabetString = alphabet.getAlphabet();
         int encodedCharIndex = alphabetString.indexOf(c) + normKey;
         if (encodedCharIndex > alphabetString.length() - 1) {
@@ -63,7 +63,7 @@ public class Coder {
      * if key > alphabet length -> get key in the right range,
      * return this key with it's started sign
      */
-    protected static int normalizeKey(int key, Alphabet alphabet) {
+    public static int normalizeKey(int key, Alphabet alphabet) {
         boolean isKeyNegative = false;
         if (key < 0) {
             key = Math.abs(key);
